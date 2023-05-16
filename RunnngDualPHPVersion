@@ -1,4 +1,6 @@
 ##--Apache Virtual host setting to run PHP 7.2 and 8.0 on Same Server/Enstance
+## Update the value of FileMatch SetHandler to setup value to run others too
+
 <VirtualHost *:54>
         ServerAdmin webmaster@localhost
         ServerName localhost
