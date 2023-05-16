@@ -1,0 +1,40 @@
+##--Apache Virtual host setting to run PHP 7.2 and 8.0 on Same Server/Enstance
+<VirtualHost *:54>
+        ServerAdmin webmaster@localhost
+        ServerName localhost
+        DocumentRoot /var/www/html/te4.0
+        <Directory /var/www/html/te4.0>
+           Options Indexes FollowSymLinks
+           AllowOverride All
+           Require all granted
+        </Directory>
+
+    <FilesMatch \.php> # Apache 2.4.10+ can proxy to unix socket
+        SetHandler "proxy:unix:/var/run/php/php7.4-fpm.sock|fcgi://localhost:54/"
+    </FilesMatch>
+
+    SSLEngine on
+    SSLCertificateFile /etc/ssl/certs/apache-selfsigned.crt
+    SSLCertificateKeyFile /etc/ssl/private/apache-selfsigned.key
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        ServerName apiproject.com
+        DocumentRoot /var/www/html/apiproject/public
+        <Directory /var/www/html/apiproject/public>
+           Options Indexes FollowSymLinks
+           AllowOverride All
+           Require all granted
+        </Directory>
+   <FilesMatch \.php> # Apache 2.4.10+ can proxy to unix socket
+        SetHandler "proxy:unix:/var/run/php/php8.0-fpm.sock|fcgi://apiproject.com/"
+    </FilesMatch>
+    #SSLEngine on
+    #SSLCertificateFile /etc/ssl/certs/apache-selfsigned.crt
+    #SSLCertificateKeyFile /etc/ssl/private/apache-selfsigned.key
+    #ErrorLog ${APACHE_LOG_DIR}/error.log
+    #CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
